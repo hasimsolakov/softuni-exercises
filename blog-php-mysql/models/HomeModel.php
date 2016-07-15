@@ -2,5 +2,12 @@
 
 class HomeModel extends BaseModel
 {
-    // TODO: your database access functions for the home page will come here ...
+    public function getLastPosts(int $maxCount = 5) : array
+    {
+        $statement = self::$db->query(
+            "Select posts.id, title, content, date, full_name ".
+            "From posts Left join users on posts.user_id = users.id ".
+            "Order by date Desc Limit $maxCount");
+        return $statement->fetch_all(MYSQLI_ASSOC);
+    }
 }
