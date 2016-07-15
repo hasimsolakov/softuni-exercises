@@ -9,6 +9,6 @@ class HomeController extends BaseController
     }
 	
 	function view($id) {
-        // TODO: Load a post to be displayed here ...
+        $this->post = $this->model->getPostById($id);
     }
 }
