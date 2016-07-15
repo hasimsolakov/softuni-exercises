@@ -2,6 +2,13 @@
 
 class UsersModel extends BaseModel
 {
+    public final function getAll() : array 
+    {
+        $statement = self::$db->query(
+            "select * from users order by username");
+        return $statement->fetch_all(MYSQLI_ASSOC);
+    }
+    
    public function login(string $username, string $password)
    {
        $statement = self::$db->prepare(

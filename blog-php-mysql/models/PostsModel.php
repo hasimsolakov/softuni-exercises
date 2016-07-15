@@ -18,7 +18,12 @@ class PostsModel extends BaseModel
     
     public final function getById(int $id)
     {
-        
+        $statement = self::$db->prepare(
+        "Select * from posts where id = ?");
+        $statement->bind_param("i", $id);
+        $statement->execute();
+        $result = $statement->get_result()->fetch_assoc();
+        return $result;
     }
     
     public final function create(string $title, string $content, int $user_id) : bool
@@ -33,11 +38,20 @@ class PostsModel extends BaseModel
     public final function edit(string $id, string $title, string $content, 
 string $date, int $user_id) : bool
     {
-        
+        $statement = self::$db->prepare(
+            "update posts set title=?, ".
+            "content = ?, date = ?, user_id = ? where id = ?");
+        $statement->bind_param("sssii", $title, $content, $date, $user_id, $id);
+        $statement->execute();
+        return $statement->affected_rows >= 0;
     }
     
     public final function delete(int $id) : bool
     {
-        
+        $statement = self::$db->prepare(
+            "delete from posts where id = ?");
+        $statement->bind_param("i", $id);
+        $statement->execute();
+        return $statement->affected_rows == 1;
     }
 }
