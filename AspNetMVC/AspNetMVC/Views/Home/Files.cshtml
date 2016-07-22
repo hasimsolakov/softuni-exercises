@@ -1,0 +1,18 @@
+﻿@model List<String>
+@{
+    ViewBag.Title = "Files";
+}
+
+<form>
+    Path: <input type="text" name="path"/>
+    <input type="submit"/>
+
+</form>
+
+<h2>Listing files in @ViewBag.Path</h2>
+
+@foreach (var file in Model)
+{
+    <div>@file</div>
+}
+
