@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+@using MVCBlog.Models @model List<MVCBlog.Models.Post>
+<div class="row">
+    <div class="col-md-2">
+        <div class="list-group">
+            @foreach (Post post in this.ViewBag.SidebarPosts)
+            {
+                @Html.ActionLink(post.Title, "Details", "Posts", new {id = post.Id}, new {@class = "list-group-item"})
+            }
+        </div>
+    </div>
+
+    @foreach (var post in this.Model)
+    {
+        <div class="post col-md-5">
+            <h2 class="title">@post.Title</h2>
+            <div class="about">
+                Posted on <i>@post.Date</i>
+                @if (post.Author != null)
+                {
+                    @:by <i>@post.Author.FullName (@post.Author.UserName)</i>
+                }
+
+            </div>
+            <div class="body">
+                <p>@Html.Raw(post.Body)</p>
+            </div>
+        </div>
+    }
+</div>
