@@ -20,8 +20,8 @@ namespace MVCBlog.Controllers
         public ActionResult Index()
         {
             bool isLoggedIn = this.User.Identity.IsAuthenticated;
-            string userId = this.User.Identity.GetUserId();
-            bool isAdmin = RolesChecker.IsAdmin(this.db.Roles, userId);
+            string username= this.User.Identity.Name;
+            bool isAdmin = RolesChecker.IsAdmin(username);
 
             var last3Posts = this.db.Posts.Include(p => p.Author)
                 .OrderByDescending(p => p.Date).Take(3);

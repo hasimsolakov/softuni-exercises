@@ -22,6 +22,8 @@ namespace MVCBlog.Models
 
 
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
         public string Author_Id { get; set; }

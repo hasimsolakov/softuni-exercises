@@ -14,6 +14,7 @@ namespace MVCBlog.Controllers
     using Microsoft.AspNet.Identity;
     using Utils;
 
+    [ValidateInput(false)]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -22,8 +23,8 @@ namespace MVCBlog.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            string userId = this.User.Identity.GetUserId();
-            this.ViewBag.IsAdmin = RolesChecker.IsAdmin(this.db.Roles, userId);
+            string username = this.User.Identity.Name;
+            this.ViewBag.IsAdmin = RolesChecker.IsAdmin(username);
 
             return View(db.Posts.ToList());
         }
@@ -41,8 +42,8 @@ namespace MVCBlog.Controllers
                 return HttpNotFound();
             }
 
-            string userId = this.User.Identity.GetUserId();
-            this.ViewBag.IsAdmin = RolesChecker.IsAdmin(this.db.Roles, userId);
+            string username = this.User.Identity.Name;
+            this.ViewBag.IsAdmin = RolesChecker.IsAdmin(username);
 
             return View(post);
         }
@@ -81,6 +82,8 @@ namespace MVCBlog.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Post post = db.Posts.Find(id);
+            var authors = this.db.Users.Where(author => author != null);
+            this.ViewBag.Authors = authors;
             if (post == null)
             {
                 return HttpNotFound();

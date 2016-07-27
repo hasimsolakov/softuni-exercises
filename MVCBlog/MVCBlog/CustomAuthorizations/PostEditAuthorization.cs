@@ -14,7 +14,6 @@ namespace MVCBlog.CustomAuthorizations
 
     public class PostEditAuthorization : AuthorizeAttribute
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {        
@@ -25,8 +24,7 @@ namespace MVCBlog.CustomAuthorizations
             }
 
             var username = httpContext.User.Identity.Name;
-            var userId = HttpContext.Current.User.Identity.GetUserId(); 
-            bool isAdmin = RolesChecker.IsAdmin(this.db.Roles,userId);
+            bool isAdmin = RolesChecker.IsAdmin(username);
             if (isAdmin)
             {
                 return true;
@@ -36,14 +34,9 @@ namespace MVCBlog.CustomAuthorizations
 
             var id = routeData.Values["id"];
             int postId = Convert.ToInt32(id);
-
-            Post post = this.db.Posts.Single(p => p.Id == postId);
-            if (post.Author_Id == null)
-            {
-                return false;
-            }
-
-            return post.Author_Id == userId;
+            string userId = httpContext.User.Identity.GetUserId();
+            bool isOwner = RolesChecker.IsOwnerOfThePost(postId, userId);
+            return isOwner;  //If is owner access is granted
         }
     }
 }
