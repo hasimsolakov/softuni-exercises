@@ -1,1 +1,1 @@
-# softuni-exercises Javascipt Basics exercises
+# softuni-exercises Java Web Development exercises
