@@ -6,7 +6,7 @@ public class Problem27_AverageGrades {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int studentsCount = Integer.parseInt(scanner.nextLine());
-        List<Student> students = new ArrayList<>(studentsCount);
+       final List<Student> students = new ArrayList<>(studentsCount);
         for (int i = 0; i < studentsCount; i++) {
             String studentData = scanner.nextLine();
             String[] dataSplitted = studentData.split(" ");
@@ -20,7 +20,7 @@ public class Problem27_AverageGrades {
             students.add(student);
         }
 
-        Student [] toPrintStudents =
+        final Student [] toPrintStudents =
                 students
                 .stream()
                 .filter(student -> student.getAverageGrade() >= 5d)

@@ -107,9 +107,4 @@ final class Book {
         return price;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        Book book = (Book) obj;
-        return this.getAuthor().equals(book.getAuthor());
-    }
 }
